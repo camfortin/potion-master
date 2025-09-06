@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/Game.css';
 
 const Game = () => {
-  const [gameMode, setGameMode] = useState('unified'); // Single unified mode
   const [currentIngredients, setCurrentIngredients] = useState<string[]>([]);
   const [isStirring, setIsStirring] = useState(false);
   const [potionResult, setPotionResult] = useState<string | null>(null);
@@ -27,7 +25,6 @@ const Game = () => {
   const [gameFinished, setGameFinished] = useState(false);
   const [winner, setWinner] = useState<string | null>(null);
   const [sharedRecipe, setSharedRecipe] = useState<any>(null);
-  const [waitingForPlayer2Start, setWaitingForPlayer2Start] = useState(false);
   const [currentTimer, setCurrentTimer] = useState(0);
   const timerRef = useRef<number | null>(null);
   
@@ -369,7 +366,7 @@ const Game = () => {
     
     // Create multiple falling particles for dramatic effect
     // Position them to fall into the cauldron area (center of screen)
-    const particles = [];
+    const particles: {id: string, emoji: string, x: number, y: number}[] = [];
     for (let i = 0; i < 5; i++) {
       particles.push({
         id: `${ingredientId}-${Date.now()}-${i}`,
@@ -437,7 +434,6 @@ const Game = () => {
     setPlayer1Recipe(null);
     setPlayer2Recipe(null);
     setSharedRecipe(null);
-    setWaitingForPlayer2Start(false);
     setCurrentRecipe(null);
     setRecipeStep(0);
     setCurrentIngredients([]);
@@ -462,7 +458,6 @@ const Game = () => {
       speak(`Player 1 selected ${recipe.name}. Get ready to start!`);
     } else {
       setPlayer2Recipe(sharedRecipe); // Use same recipe as player 1
-      setWaitingForPlayer2Start(true);
       setShowStartModal(true);
       speak(`Player 2, get ready to make ${sharedRecipe?.name}!`);
     }
@@ -500,7 +495,6 @@ const Game = () => {
       setCurrentIngredients([]);
       setPotionResult(null);
       setRecipeFeedback('');
-      setWaitingForPlayer2Start(true);
       setShowStartModal(true); // Show modal for Player 2
       speak(`Player 1 finished in ${(completionTime / 1000).toFixed(1)} seconds! Player 2, get ready for the same recipe!`);
     } else {
@@ -562,7 +556,6 @@ const Game = () => {
     setSharedRecipe(null);
     setPlayer1Time(0);
     setPlayer2Time(0);
-    setWaitingForPlayer2Start(false);
     stopTimer();
     speak("Ready for another two-player duel! Player 1, choose your recipe!");
   };
@@ -907,7 +900,7 @@ const Game = () => {
               <button className="narration-control stop" onClick={stopNarration}>
                 ⏹️ Stop
               </button>
-              <button className="narration-control skip" onClick={progressStory}>
+              <button className="narration-control skip" onClick={() => progressStory()}>
                 ⏭️ Next Step
               </button>
             </div>
@@ -923,7 +916,7 @@ const Game = () => {
           <h2>Magical Ingredients</h2>
           <div className="ingredients-grid">
             {ingredients.map(ingredient => {
-              const isHighlighted = gameMode === 'story' && isNarrating && 
+              const isHighlighted = isNarrating && 
                 storySteps[currentStep]?.action === 'add' && 
                 storySteps[currentStep]?.ingredient === ingredient.id;
               
@@ -1076,9 +1069,9 @@ const Game = () => {
           <div className="cauldron-controls">
             <motion.button 
               onClick={handleStir} 
-              className={`stir-button ${gameMode === 'story' && isNarrating && storySteps[currentStep]?.action === 'stir' ? 'highlighted' : ''}`}
+              className={`stir-button ${isNarrating && storySteps[currentStep]?.action === 'stir' ? 'highlighted' : ''}`}
               disabled={isStirring}
-              animate={gameMode === 'story' && isNarrating && storySteps[currentStep]?.action === 'stir' ? 
+              animate={isNarrating && storySteps[currentStep]?.action === 'stir' ? 
                 { scale: [1, 1.05, 1] } : {}}
               transition={{ repeat: Infinity, duration: 1.5 }}
             >
