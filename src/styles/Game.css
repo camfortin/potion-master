@@ -282,13 +282,78 @@
   box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
+.bubble.medium {
+  width: 18px;
+  height: 18px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.35));
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.45);
+}
+
+.bubble.tiny {
+  width: 6px;
+  height: 6px;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+  box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.6);
+}
+
 .steam {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
   border-radius: 50%;
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.steam-thick {
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(200, 200, 200, 0.4), transparent);
+  filter: blur(15px);
+}
+
+.steam-medium {
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(220, 220, 220, 0.3), transparent);
+  filter: blur(12px);
+}
+
+.steam-wispy {
+  width: 35px;
+  height: 50px;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.4), transparent);
   filter: blur(8px);
+}
+
+.sparkle-particle {
+  position: absolute;
+  font-size: 1.2rem;
+  pointer-events: none;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+.glow-particle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  filter: blur(4px);
+}
+
+.liquid-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .swirl-effect {

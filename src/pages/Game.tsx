@@ -956,74 +956,192 @@ const Game = () => {
                   : 'inset 0 0 50px rgba(0, 0, 0, 0.5)'
               }}
             >
-              {/* Large bubbles */}
+              {/* Liquid surface shimmer */}
+              {currentIngredients.length > 0 && (
+                <motion.div
+                  className="liquid-shimmer"
+                  animate={{
+                    opacity: [0.3, 0.6, 0.3],
+                    scale: [1, 1.05, 1]
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2,
+                    ease: "easeInOut"
+                  }}
+                  style={{
+                    background: `radial-gradient(circle at 50% 30%, ${getMixedColor().secondary}80, transparent)`
+                  }}
+                />
+              )}
+
+              {/* Enhanced bubble system */}
               {currentIngredients.length > 0 && (
                 <div className="bubble-container">
-                  {[...Array(8)].map((_, i) => (
+                  {/* Large bubbles */}
+                  {[...Array(12)].map((_, i) => (
                     <motion.div
                       key={`large-${i}`}
                       className="bubble large"
                       initial={{ scale: 0, x: Math.random() * 200, y: 20 }}
-                      animate={{ 
-                        y: [-20, -120], 
+                      animate={{
+                        y: [-20, -140],
                         opacity: [0, 1, 1, 0],
-                        scale: [0.5, 1, 1.2, 0.8]
+                        scale: [0.5, 1, 1.3, 0.8],
+                        x: [0, Math.sin(i) * 15, Math.cos(i) * 10, 0]
                       }}
-                      transition={{ 
-                        repeat: Infinity, 
+                      transition={{
+                        repeat: Infinity,
                         duration: 2 + Math.random() * 2,
-                        delay: i * 0.2,
+                        delay: i * 0.15,
                         ease: "easeOut"
                       }}
                       style={{
-                        left: `${20 + (i * 20)}%`,
+                        left: `${15 + (i * 8)}%`,
                       }}
                     />
                   ))}
-                  
+
+                  {/* Medium bubbles */}
+                  {[...Array(18)].map((_, i) => (
+                    <motion.div
+                      key={`medium-${i}`}
+                      className="bubble medium"
+                      initial={{ scale: 0, x: Math.random() * 210, y: 15 }}
+                      animate={{
+                        y: [-15, -100],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.3, 0.8, 1, 0.5]
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.8 + Math.random() * 1.5,
+                        delay: i * 0.12,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        left: `${12 + (i * 4.5)}%`,
+                      }}
+                    />
+                  ))}
+
                   {/* Small bubbles */}
-                  {[...Array(15)].map((_, i) => (
+                  {[...Array(25)].map((_, i) => (
                     <motion.div
                       key={`small-${i}`}
                       className="bubble small"
                       initial={{ scale: 0, x: Math.random() * 220, y: 10 }}
-                      animate={{ 
-                        y: [-10, -80], 
+                      animate={{
+                        y: [-10, -80],
                         opacity: [0, 1, 0],
                         scale: [0.2, 0.6, 0.8, 0.3]
                       }}
-                      transition={{ 
-                        repeat: Infinity, 
+                      transition={{
+                        repeat: Infinity,
                         duration: 1.5 + Math.random() * 1,
-                        delay: i * 0.1,
+                        delay: i * 0.08,
                         ease: "easeOut"
                       }}
                       style={{
-                        left: `${10 + (i * 5)}%`,
+                        left: `${8 + (i * 3.5)}%`,
+                      }}
+                    />
+                  ))}
+
+                  {/* Tiny bubbles for extra detail */}
+                  {[...Array(30)].map((_, i) => (
+                    <motion.div
+                      key={`tiny-${i}`}
+                      className="bubble tiny"
+                      initial={{ scale: 0, x: Math.random() * 230, y: 5 }}
+                      animate={{
+                        y: [-5, -60],
+                        opacity: [0, 0.8, 0],
+                        scale: [0.1, 0.4, 0.5, 0.2]
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 1.2 + Math.random() * 0.8,
+                        delay: i * 0.05,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        left: `${5 + (i * 3)}%`,
                       }}
                     />
                   ))}
                   
-                  {/* Steam/vapor effects */}
-                  {[...Array(6)].map((_, i) => (
+                  {/* Steam/vapor effects - Enhanced with more particles */}
+                  {[...Array(20)].map((_, i) => (
                     <motion.div
                       key={`steam-${i}`}
-                      className="steam"
+                      className={`steam ${i % 3 === 0 ? 'steam-thick' : i % 3 === 1 ? 'steam-wispy' : 'steam-medium'}`}
                       initial={{ scale: 0, opacity: 0 }}
-                      animate={{ 
-                        y: [-10, -150], 
-                        opacity: [0, 0.6, 0],
-                        scale: [0.5, 2, 3],
-                        x: [0, Math.sin(i) * 30]
+                      animate={{
+                        y: [-20, -200],
+                        opacity: [0, 0.8, 0.6, 0],
+                        scale: [0.3, 1.5, 2.5, 3.5],
+                        x: [0, Math.sin(i * 0.5) * 40, Math.cos(i * 0.3) * 50]
                       }}
-                      transition={{ 
-                        repeat: Infinity, 
-                        duration: 3 + Math.random() * 2,
-                        delay: i * 0.5,
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2.5 + Math.random() * 3,
+                        delay: i * 0.15,
                         ease: "easeOut"
                       }}
                       style={{
-                        left: `${30 + (i * 8)}%`,
+                        left: `${15 + (i * 3.5)}%`,
+                      }}
+                    />
+                  ))}
+
+                  {/* Sparkle particles rising from the potion */}
+                  {[...Array(12)].map((_, i) => (
+                    <motion.div
+                      key={`sparkle-${i}`}
+                      className="sparkle-particle"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        y: [-5, -140],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0, 1, 1, 0],
+                        rotate: [0, 180, 360]
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 2 + Math.random() * 1.5,
+                        delay: i * 0.2,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        left: `${20 + (i * 5)}%`,
+                        color: i % 4 === 0 ? '#FFD700' : i % 4 === 1 ? '#FF69B4' : i % 4 === 2 ? '#87CEEB' : '#98FB98'
+                      }}
+                    >
+                      ✨
+                    </motion.div>
+                  ))}
+
+                  {/* Magic glow particles */}
+                  {[...Array(8)].map((_, i) => (
+                    <motion.div
+                      key={`glow-${i}`}
+                      className="glow-particle"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        y: [10, -120],
+                        opacity: [0, 0.9, 0.7, 0],
+                        scale: [0.2, 1.2, 1, 0.5]
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 3 + Math.random() * 2,
+                        delay: i * 0.3,
+                        ease: "easeInOut"
+                      }}
+                      style={{
+                        left: `${25 + (i * 6)}%`,
+                        background: getMixedColor().glow
                       }}
                     />
                   ))}
